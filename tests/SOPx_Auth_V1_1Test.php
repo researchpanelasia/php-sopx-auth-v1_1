@@ -1,6 +1,8 @@
 <?php
 
-require_once('vendor/autoload.php');
+if (file_exists('vendor/autoload.php')) {
+    require_once('vendor/autoload.php');
+}
 require_once('lib/SOPx_Auth_V1_1.class.php');
 
 class SOPx_Auth_V1_1Test extends PHPUnit_Framework_TestCase {
