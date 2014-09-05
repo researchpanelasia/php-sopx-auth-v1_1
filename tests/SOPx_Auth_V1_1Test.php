@@ -24,7 +24,7 @@ class SOPx_Auth_V1_1Test extends PHPUnit_Framework_TestCase {
      * @expectedException   InvalidArgumentException
      */
     public function testNew_fails_if_app_secret_is_missing() {
-        $auth = new SOPx_Auth_V1_1(null, 'hoge');
+        $auth = new SOPx_Auth_V1_1(1, null);
     }
 
     public function testNew_succeeds() {
