@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/yowcowvg/php-SOPx-Auth-V1_1.svg?branch=master)](https://travis-ci.org/yowcowvg/php-SOPx-Auth-V1_1)
+[![Build Status](https://travis-ci.org/researchpanelasia/php-SOPx-Auth-V1_1.svg?branch=master)](https://travis-ci.org/researchpanelasia/php-SOPx-Auth-V1_1)
 
 # NAME
 
