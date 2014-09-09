@@ -13,7 +13,6 @@ class Client
 
     public function __construct($app_id, $app_secret, $time = null)
     {
-
         if (!$app_id) {
             throw new \InvalidArgumentException('Missing required parameter: app_id');
         }
@@ -54,7 +53,6 @@ class Client
             default:
                 throw new \InvalidArgumentException('Cannot handle method: '. $method);
         }
-
         return $req;
     }
 }
