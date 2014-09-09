@@ -2,8 +2,8 @@
 
 namespace SOPx\Auth\V1_1\Request;
 
-use \SOPx\Auth\V1_1\Util;
 use \Httpful\Request;
+use \SOPx\Auth\V1_1\Util;
 
 class GET
 {
