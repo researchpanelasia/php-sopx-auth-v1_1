@@ -1,7 +1,5 @@
 <?php
 
-require_once('lib/SOPx_Auth_V1_1/Util.class.php');
-
 use \SOPx\Auth\V1_1\Util;
 
 class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {

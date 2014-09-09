@@ -2,7 +2,8 @@
 
 namespace SOPx\Auth\V1_1;
 
-class Util {
+class Util
+{
 
     public static function createStringFromArray($params)
     {

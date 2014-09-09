@@ -1,6 +1,6 @@
 <?php
 
-require_once('lib/SOPx_Auth_V1_1.class.php');
+use \SOPx\Auth\V1_1;
 
 class SOPx_Auth_V1_1Test extends \PHPUnit_Framework_TestCase {
 
