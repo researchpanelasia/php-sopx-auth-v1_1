@@ -1,8 +1,8 @@
 <?php
 
-namespace SOPx\Auth;
+namespace SOPx\Auth\V1_1;
 
-class V1_1
+class Client
 {
     protected $app_id, $app_secret;
 
