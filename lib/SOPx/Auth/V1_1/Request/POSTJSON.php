@@ -6,7 +6,7 @@ use \SOPx\Auth\V1_1\Util;
 use \Httpful\Mime;
 use \Httpful\Request;
 
-class POST
+class POSTJSON
 {
     public static function createRequest(\Net_URL2 $uri, array $params, $app_secret)
     {
@@ -17,13 +17,11 @@ class POST
             throw new \InvalidArgumentException('Missing app_secret');
         }
 
-        $url = $uri->getURL();
+        $data = json_encode($params);
+        $sig = Util::createSignature($data, $app_secret);
 
-        $uri->setQueryVariables(array_merge(
-            $params,
-            array( 'sig' => Util::createSignature($params, $app_secret) )
-        ));
-
-        return Request::post($url, $uri->getQueryVariables(), Mime::FORM);
+        $req = Request::post($uri->getURL(), $data, Mime::JSON);
+        $req->addHeader('X-Sop-Sig', $sig);
+        return $req;
     }
 }

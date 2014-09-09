@@ -1,9 +1,10 @@
 <?php
 
 use \Net_URL2;
-use \SOPx\Auth\V1_1\Request\GET;
+use \SOPx\Auth\V1_1\Util;
+use \SOPx\Auth\V1_1\Request\POSTJSON;
 
-class SOPx_Auth_V1_1_Request_GETTest extends \PHPUnit_Framework_TestCase
+class SOPx_Auth_V1_1_Request_POSTJSONTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -15,7 +16,7 @@ class SOPx_Auth_V1_1_Request_GETTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateRequest_fails_on_missing_time()
     {
-        GET::createRequest(
+        POSTJSON::createRequest(
             $this->uri,
             array( 'aaa' => 'aaa' ),
             'hogehoge'
@@ -27,7 +28,7 @@ class SOPx_Auth_V1_1_Request_GETTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateRequest_fails_on_missing_app_secret()
     {
-        GET::createRequest(
+        POSTJSON::createRequest(
             $this->uri,
             array( 'aaa' => 'aaa', 'time' => '1234', ),
             ''
@@ -36,7 +37,7 @@ class SOPx_Auth_V1_1_Request_GETTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateRequest()
     {
-        $req = GET::createRequest(
+        $req = POSTJSON::createRequest(
             $this->uri,
             array(
                 'time' => '1234',
@@ -47,14 +48,21 @@ class SOPx_Auth_V1_1_Request_GETTest extends \PHPUnit_Framework_TestCase
         );
 
         $uri = new \Net_URL2($req->uri);
-        $query = $uri->getQueryVariables();
 
-        $this->assertEquals('GET', $req->method);
-        $this->assertEquals(array(
-            'aaa' => 'aaa',
-            'bbb' => 'bbb',
-            'time' => '1234',
-            'sig' => '40499603a4a5e8d4139817e415f637a180a7c18c1a2ab03aa5b296d7756818f6',
-        ), $query);
+        $this->assertEquals('POST', $req->method);
+        $this->assertEquals($this->uri->getURL(), $uri->getURL());
+        $this->assertEquals($req->content_type, 'application/json');
+        $this->assertEquals(
+            array(
+                'aaa' => 'aaa',
+                'bbb' => 'bbb',
+                'time' => '1234',
+            ),
+            json_decode($req->payload, true)
+        );
+        $this->assertEquals(
+            Util::createSignature($req->payload, 'hogehoge'),
+            $req->headers['X-Sop-Sig']
+        );
     }
 }
