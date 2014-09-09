@@ -30,4 +30,41 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('1', $auth->getAppId());
         $this->assertEquals('hogehoge', $auth->getAppSecret());
     }
+
+    /**
+     * @expectedException   InvalidArgumentException
+     */
+    public function getCreateRequest_on_invalid_method() {
+        $this->auth->createRequest(
+            'PUT', 'http://hoge/', array('aaa' => 'aaa')
+        );
+    }
+
+    public function testCreateRequest_on_GET() {
+        $req = $this->auth->createRequest(
+            'GET', 'http://hoge/', array('aaa' => 'aaa')
+        );
+
+        $this->assertInstanceOf('Httpful\Request', $req);
+        $this->assertEquals('GET', $req->method);
+    }
+
+    public function testCreateRequest_on_POST() {
+        $req = $this->auth->createRequest(
+            'POST', 'http://hoge/', array('aaa' => 'aaa')
+        );
+
+        $this->assertInstanceOf('Httpful\Request', $req);
+        $this->assertEquals('POST', $req->method);
+    }
+
+    public function testCreateRequest_on_POSTJSON() {
+        $req = $this->auth->createRequest(
+            'POSTJSON', 'http://hoge/', array('aaa' => 'aaa')
+        );
+
+        $this->assertInstanceOf('Httpful\Request', $req);
+        $this->assertEquals('POST', $req->method);
+        $this->assertRegExp('/\A[0-9a-f]{64}\z/', $req->headers['X-Sop-Sig']);
+    }
 }
