@@ -1,16 +1,24 @@
 <?php
 
-class SOPx_Auth_V1_1 {
+namespace SOPx\Auth;
+
+$dir = dirname(__FILE__);
+require_once($dir. '/SOPx_Auth_V1_1/Util.class.php');
+require_once($dir. '/SOPx_Auth_V1_1/Request/GET.class.php');
+require_once($dir. '/SOPx_Auth_V1_1/Request/POST.class.php');
+require_once($dir. '/SOPx_Auth_V1_1/Request/POST_JSON.class.php');
+
+class V1_1 {
 
     private $app_id, $app_secret;
 
     public function __construct($app_id, $app_secret) {
 
         if (!$app_id) {
-            throw new InvalidArgumentException('Missing required parameter: app_id');
+            throw new \InvalidArgumentException('Missing required parameter: app_id');
         }
         if (!$app_secret) {
-            throw new InvalidArgumentException('Missing required parameter: app_secret');
+            throw new \InvalidArgumentException('Missing required parameter: app_secret');
         }
 
         $this->app_id = $app_id;
@@ -20,6 +28,7 @@ class SOPx_Auth_V1_1 {
     public function getAppId() { return $this->app_id; }
     public function getAppSecret() { return $this->app_secret; }
 
+    /*
     public function generateSignature($query) {
 
         if (!array_key_exists('time', $query) || !$query['time']) {
@@ -64,4 +73,5 @@ class SOPx_Auth_V1_1 {
 
         return $sig === $this->generateSignature($query);
     }
+    */
 }
