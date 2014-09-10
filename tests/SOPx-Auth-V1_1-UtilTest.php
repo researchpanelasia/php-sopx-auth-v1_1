@@ -59,4 +59,44 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
             'hogehoge'
         );
     }
+
+    public function testIsSignatureValid_on_valid_sig_for_array() {
+        $this->assertTrue(
+            Util::isSignatureValid(
+                '2fbfe87e54cc53036463633ef29beeaa4d740e435af586798917826d9e525112',
+                array('aaa' => 'aaa', 'ccc' => 'ccc', 'bbb' => 'bbb'),
+                'hogehoge'
+            )
+        );
+    }
+
+    public function testIsSignatureValid_on_valid_sig_for_JSON() {
+        $this->assertTrue(
+            Util::isSignatureValid(
+                'dc76e675e2bcabc31182e33506f5b01ea7966a9c0640d335cc6cc551f0bb1bba',
+                '{"hoge":"fuga"}',
+                'hogehoge'
+            )
+        );
+    }
+
+    public function testIsSignatureValid_on_invalid_sig_for_array() {
+        $this->assertFalse(
+            Util::isSignatureValid(
+                '2fbfe87e54cc53036463633ef29beeaa4d740e435af586798917826d9e525112',
+                array('aaa' => 'aaa', 'ccc' => 'ccc', 'bbb' => 'bbc'),
+                'hogehoge'
+            )
+        );
+    }
+
+    public function testIsSignatureValid_on_invalid_sig_for_JSON() {
+        $this->assertFalse(
+            Util::isSignatureValid(
+                'dc76e675e2bcabc31182e33506f5b01ea7966a9c0640d335cc6cc551f0bb1bba',
+                '{"hoge":"huga"}',
+                'hogehoge'
+            )
+        );
+    }
 }

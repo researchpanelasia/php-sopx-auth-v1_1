@@ -31,4 +31,9 @@ class Util
         }
         return hash_hmac('sha256', $data_string, $app_secret);
     }
+
+    public static function isSignatureValid($sig, $params, $app_secret)
+    {
+        return $sig === self::createSignature($params, $app_secret);
+    }
 }
