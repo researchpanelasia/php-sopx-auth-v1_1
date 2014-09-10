@@ -67,4 +67,35 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('POST', $req->method);
         $this->assertRegExp('/\A[0-9a-f]{64}\z/', $req->headers['X-Sop-Sig']);
     }
+
+    public function testVerifySignature_on_array() {
+        $req = $this->auth->createRequest(
+            'POST', 'http://hoge/', array('aaa' => 'aaa')
+        );
+
+        $sig = $req->payload['sig'];
+        unset($req->payload['sig']);
+
+        $this->assertTrue(
+            $this->auth->verifySignature(
+                $sig,
+                $req->payload
+            )
+        );
+    }
+
+    public function testVerifySignature_on_JSON() {
+        $req = $this->auth->createRequest(
+            'POSTJSON', 'http://hoge/', array('aaa' => 'aaa')
+        );
+
+        $sig = $req->headers['X-Sop-Sig'];
+
+        $this->assertTrue(
+            $this->auth->verifySignature(
+                $sig,
+                $req->payload
+            )
+        );
+    }
 }

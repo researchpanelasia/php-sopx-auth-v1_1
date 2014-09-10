@@ -55,4 +55,9 @@ class Client
         }
         return $req;
     }
+
+    public function verifySignature($sig, $params)
+    {
+        return Util::isSignatureValid($sig, $params, $this->getAppSecret());
+    }
 }
