@@ -34,6 +34,9 @@ class Util
 
     public static function isSignatureValid($sig, $params, $app_secret)
     {
+        if (!$sig || !$params || !$app_secret) {
+            return false;
+        }
         return $sig === self::createSignature($params, $app_secret);
     }
 }

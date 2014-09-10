@@ -99,4 +99,28 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
             )
         );
     }
+
+    public function testIsSignatureValid_on_missing_variables() {
+        $this->assertFalse(
+            Util::isSignatureValid(
+                null,
+                '{"hoge":"huga"}',
+                'hogehoge'
+            )
+        );
+        $this->assertFalse(
+            Util::isSignatureValid(
+                'hogefuga',
+                null,
+                'hogehoge'
+            )
+        );
+        $this->assertFalse(
+            Util::isSignatureValid(
+                'hogefuga',
+                array('aaa' => 'aaa'),
+                null
+            )
+        );
+    }
 }
