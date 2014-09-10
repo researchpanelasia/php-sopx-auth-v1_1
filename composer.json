@@ -1,5 +1,13 @@
 {
+    "name": "researchpanelasia/sopx-auth-v1_1",
+    "require": {
+        "nategood/httpful": "*",
+        "pear/net_url2": "*"
+    },
     "require-dev": {
         "phpunit/phpunit": "4.2.*"
+    },
+    "autoload": {
+        "psr-0": { "SOPx": "lib/" }
     }
 }
