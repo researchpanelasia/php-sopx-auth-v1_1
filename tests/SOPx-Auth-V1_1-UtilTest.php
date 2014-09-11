@@ -15,6 +15,18 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    public function testCreateStringFromArray_ignores_by_prefix() {
+        $this->assertSame(
+            'xxx=xxx&yyy=yyy&zzz=zzz',
+            Util::createStringFromArray(array(
+                'sop_xxx' => 'xxx',
+                'zzz' => 'zzz',
+                'yyy' => 'yyy',
+                'xxx' => 'xxx',
+            ))
+        );
+    }
+
     /**
      * @expectedException   InvalidArgumentException
      */
@@ -31,6 +43,21 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
             '2fbfe87e54cc53036463633ef29beeaa4d740e435af586798917826d9e525112',
             Util::createSignature(
                 array(
+                    'ccc' => 'ccc',
+                    'bbb' => 'bbb',
+                    'aaa' => 'aaa',
+                ),
+                'hogehoge'
+            )
+        );
+    }
+
+    public function testCreateSignature_from_array_with_ignored_prefix() {
+        $this->assertSame(
+            '2fbfe87e54cc53036463633ef29beeaa4d740e435af586798917826d9e525112',
+            Util::createSignature(
+                array(
+                    'sop_sss' => 'sss',
                     'ccc' => 'ccc',
                     'bbb' => 'bbb',
                     'aaa' => 'aaa',
