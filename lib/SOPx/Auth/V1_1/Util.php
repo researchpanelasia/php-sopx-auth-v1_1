@@ -12,7 +12,9 @@ class Util
             if (!is_scalar($value)) {
                 throw new \InvalidArgumentException('Non-scalar value in parameter: '. $key);
             }
-            $query[] = $key. '='. $value;
+            if (!preg_match('/^sop_/', $key)) {
+                $query[] = $key. '='. $value;
+            }
         }
         return implode('&', $query);
     }
