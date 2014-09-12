@@ -12,3 +12,6 @@ before_script:
 
 script:
   - ./vendor/bin/phpunit tests
+
+notifications:
+  slack: researchpanelasia:tE9kAE7Ob1jdKCr9UsKAldlz
