@@ -58,6 +58,11 @@ class Client
 
     public function verifySignature($sig, $params)
     {
-        return Util::isSignatureValid($sig, $params, $this->getAppSecret());
+        return Util::isSignatureValid(
+            $sig,
+            $params,
+            $this->getAppSecret(),
+            $this->getTime()
+        );
     }
 }
