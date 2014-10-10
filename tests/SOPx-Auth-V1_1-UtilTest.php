@@ -87,67 +87,90 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function testIsSignatureValid_on_valid_sig_for_array() {
+    public function testIsSignatureValid_on_missing_time() {
+        $params = array(
+            'aaa' => 'aaa',
+            'bbb' => 'bbb',
+        );
+        $sig = Util::createSignature($params, 'hogehoge');
+
+        $this->assertFalse(
+            Util::isSignatureValid($sig, $params, 'hogehoge')
+        );
+    }
+
+    public function testIsSignatureValid_on_too_old_time() {
+        $now = 100000;
+        $time = $now - Util::$SIG_VALID_FOR_SEC - 1;
+        $params = array(
+            'aaa' => 'aaa',
+            'bbb' => 'bbb',
+            'time' => $time,
+        );
+        $sig = Util::createSignature($params, 'hogehoge');
+
+        $this->assertFalse(
+            Util::isSignatureValid($sig, $params, 'hogehoge', $now)
+        );
+    }
+
+    public function testIsSignatureValid_on_lower_limit_time() {
+        $now = 100000;
+        $time = $now - Util::$SIG_VALID_FOR_SEC;
+        $params = array(
+            'aaa' => 'aaa',
+            'bbb' => 'bbb',
+            'time' => $time,
+        );
+        $sig = Util::createSignature($params, 'hogehoge');
+
         $this->assertTrue(
-            Util::isSignatureValid(
-                '2fbfe87e54cc53036463633ef29beeaa4d740e435af586798917826d9e525112',
-                array('aaa' => 'aaa', 'ccc' => 'ccc', 'bbb' => 'bbb'),
-                'hogehoge'
-            )
+            Util::isSignatureValid($sig, $params, 'hogehoge', $now)
         );
     }
 
-    public function testIsSignatureValid_on_valid_sig_for_JSON() {
+    public function testIsSignatureValid_on_invalid_sig() {
+        $now = 100000;
+        $time = $now;
+        $params = array(
+            'aaa' => 'aaa',
+            'bbb' => 'bbb',
+            'time' => $time,
+        );
+        $sig = Util::createSignature($params, 'hogehoge');
+
+        $this->assertFalse(
+            Util::isSignatureValid($sig. "x", $params, 'hogehoge', $now)
+        );
+    }
+
+    public function testIsSignatureValid_on_upper_limit_time() {
+        $now = 100000;
+        $time = $now + Util::$SIG_VALID_FOR_SEC;
+        $params = array(
+            'aaa' => 'aaa',
+            'bbb' => 'bbb',
+            'time' => $time,
+        );
+        $sig = Util::createSignature($params, 'hogehoge');
+
         $this->assertTrue(
-            Util::isSignatureValid(
-                'dc76e675e2bcabc31182e33506f5b01ea7966a9c0640d335cc6cc551f0bb1bba',
-                '{"hoge":"fuga"}',
-                'hogehoge'
-            )
+            Util::isSignatureValid($sig, $params, 'hogehoge', $now)
         );
     }
 
-    public function testIsSignatureValid_on_invalid_sig_for_array() {
-        $this->assertFalse(
-            Util::isSignatureValid(
-                '2fbfe87e54cc53036463633ef29beeaa4d740e435af586798917826d9e525112',
-                array('aaa' => 'aaa', 'ccc' => 'ccc', 'bbb' => 'bbc'),
-                'hogehoge'
-            )
+    public function testIsSignatureValid_on_too_new_time() {
+        $now = 100000;
+        $time = $now + Util::$SIG_VALID_FOR_SEC + 1;
+        $params = array(
+            'aaa' => 'aaa',
+            'bbb' => 'bbb',
+            'time' => $time,
         );
-    }
+        $sig = Util::createSignature($params, 'hogehoge');
 
-    public function testIsSignatureValid_on_invalid_sig_for_JSON() {
         $this->assertFalse(
-            Util::isSignatureValid(
-                'dc76e675e2bcabc31182e33506f5b01ea7966a9c0640d335cc6cc551f0bb1bba',
-                '{"hoge":"huga"}',
-                'hogehoge'
-            )
-        );
-    }
-
-    public function testIsSignatureValid_on_missing_variables() {
-        $this->assertFalse(
-            Util::isSignatureValid(
-                null,
-                '{"hoge":"huga"}',
-                'hogehoge'
-            )
-        );
-        $this->assertFalse(
-            Util::isSignatureValid(
-                'hogefuga',
-                null,
-                'hogehoge'
-            )
-        );
-        $this->assertFalse(
-            Util::isSignatureValid(
-                'hogefuga',
-                array('aaa' => 'aaa'),
-                null
-            )
+            Util::isSignatureValid($sig, $params, 'hogehoge', $now)
         );
     }
 }
