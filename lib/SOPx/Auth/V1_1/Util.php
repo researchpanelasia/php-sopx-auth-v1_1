@@ -52,6 +52,11 @@ class Util
         }
         else if (is_scalar($params)) {
             $data = json_decode($params, true); // Assume it's a JSON
+
+            if (json_last_error()) {
+                throw new \InvalidArgumentException('Malformed string was given where JSON was expected');
+            }
+
             if (array_key_exists('time', $data)) {
                 $req_time = $data['time'];
             }

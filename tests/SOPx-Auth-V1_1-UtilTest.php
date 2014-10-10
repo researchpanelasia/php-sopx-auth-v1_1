@@ -173,4 +173,11 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
             Util::isSignatureValid($sig, $params, 'hogehoge', $now)
         );
     }
+
+    /**
+     * @expectedException   InvalidArgumentException
+     */
+    public function testIsSignatureValid_on_malformed_json() {
+        Util::isSignatureValid('signature', '{"mal":"formed"', 'hogehoge', '1234');
+    }
 }
