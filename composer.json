@@ -4,7 +4,6 @@
     "keywords": ["sop", "authentication"],
     "type": "library",
     "license": "MIT",
-    "version": "0.0.5",
     "homepage": "https://github.com/researchpanelasia/php-sopx-auth-v1_1",
     "authors": [
         {
