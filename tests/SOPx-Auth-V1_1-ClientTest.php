@@ -45,8 +45,8 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
             'GET', 'http://hoge/', array('aaa' => 'aaa')
         );
 
-        $this->assertInstanceOf('Httpful\Request', $req);
-        $this->assertEquals('GET', $req->method);
+        $this->assertInstanceOf('GuzzleHttp\Psr7\Request', $req);
+        $this->assertEquals('GET', $req->getMethod());
     }
 
     public function testCreateRequest_on_POST() {
@@ -54,8 +54,8 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
             'POST', 'http://hoge/', array('aaa' => 'aaa')
         );
 
-        $this->assertInstanceOf('Httpful\Request', $req);
-        $this->assertEquals('POST', $req->method);
+        $this->assertInstanceOf('GuzzleHttp\Psr7\Request', $req);
+        $this->assertEquals('POST', $req->getMethod());
     }
 
     public function testCreateRequest_on_POSTJSON() {
@@ -63,9 +63,11 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
             'POSTJSON', 'http://hoge/', array('aaa' => 'aaa')
         );
 
-        $this->assertInstanceOf('Httpful\Request', $req);
-        $this->assertEquals('POST', $req->method);
-        $this->assertRegExp('/\A[0-9a-f]{64}\z/', $req->headers['X-Sop-Sig']);
+        $this->assertInstanceOf('GuzzleHttp\Psr7\Request', $req);
+        $this->assertEquals('POST', $req->getMethod());
+
+        $sig = $req->getHeader('x-sop-sig');
+        $this->assertRegExp('/\A[0-9a-f]{64}\z/', $sig[0]);
     }
 
     public function testVerifySignature_on_array() {
@@ -73,13 +75,16 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
             'POST', 'http://hoge/', array('aaa' => 'aaa')
         );
 
-        $sig = $req->payload['sig'];
-        unset($req->payload['sig']);
+        $query = array();
+        parse_str($req->getBody(), $query);
+
+        $sig = $query['sig'];
+        unset($query['sig']);
 
         $this->assertTrue(
             $this->auth->verifySignature(
                 $sig,
-                $req->payload
+                $query
             )
         );
     }
@@ -89,12 +94,12 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
             'POSTJSON', 'http://hoge/', array('aaa' => 'aaa')
         );
 
-        $sig = $req->headers['X-Sop-Sig'];
+        $sig = $req->getHeader('X-Sop-Sig');
 
         $this->assertTrue(
             $this->auth->verifySignature(
-                $sig,
-                $req->payload
+                $sig[0],
+                $req->getBody() . ""
             )
         );
     }

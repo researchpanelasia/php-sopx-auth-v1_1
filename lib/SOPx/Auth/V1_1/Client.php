@@ -2,7 +2,7 @@
 
 namespace SOPx\Auth\V1_1;
 
-use \Net_URL2;
+use \GuzzleHttp\Psr7\Uri;
 use \SOPx\Auth\V1_1\Request\GET;
 use \SOPx\Auth\V1_1\Request\POST;
 use \SOPx\Auth\V1_1\Request\POSTJSON;
@@ -34,10 +34,14 @@ class Client
 
     public function createRequest($method, $uri, $params)
     {
-        if (!is_object($uri)) {
-            $uri = new \Net_URL2($uri);
+        if (is_string($uri)) {
+            $uri = new Uri($uri);
         }
-        $params['time'] = $this->getTime();
+
+        $params = array_merge(
+            array('app_id' => $this->getAppId(), 'time' => $this->getTime()),
+            $params
+        );
 
         $req;
         switch ($method) {
