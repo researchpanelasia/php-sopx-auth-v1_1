@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "393149918f06029a4e8bb5121c461b81",
-    "content-hash": "6880b641b8ab7c777b6219c0930c7323",
+    "hash": "ddf85106cb6bd29e5c8706671f3f21e6",
+    "content-hash": "0f88d89356fd4b4c0f4d8524fa058873",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -177,64 +177,6 @@
                 "uri"
             ],
             "time": "2016-02-18 21:54:00"
-        },
-        {
-            "name": "pear/net_url2",
-            "version": "v2.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Net_URL2.git",
-                "reference": "e4c4fb0d266a171feaed61d744b075769cfaa08b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Net_URL2/zipball/e4c4fb0d266a171feaed61d744b075769cfaa08b",
-                "reference": "e4c4fb0d266a171feaed61d744b075769cfaa08b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.1.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Net_URL2": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "David Coallier",
-                    "email": "davidc@php.net"
-                },
-                {
-                    "name": "Tom Klingenberg",
-                    "email": "tkli@php.net"
-                },
-                {
-                    "name": "Christian Schmidt",
-                    "email": "chmidt@php.net"
-                }
-            ],
-            "description": "Class for parsing and handling URL. Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of relative URLs.",
-            "homepage": "https://github.com/pear/Net_URL2",
-            "keywords": [
-                "PEAR",
-                "RFC 3986",
-                "net",
-                "networking",
-                "uri",
-                "url"
-            ],
-            "time": "2014-09-07 17:29:55"
         },
         {
             "name": "psr/http-message",
