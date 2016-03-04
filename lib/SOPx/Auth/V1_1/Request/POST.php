@@ -2,13 +2,12 @@
 
 namespace SOPx\Auth\V1_1\Request;
 
-use \Httpful\Mime;
-use \Httpful\Request;
+use \GuzzleHttp\Psr7\Request;
 use \SOPx\Auth\V1_1\Util;
 
 class POST
 {
-    public static function createRequest(\Net_URL2 $uri, array $params, $app_secret)
+    public static function createRequest(\GuzzleHttp\Psr7\Uri $uri, array $params, $app_secret)
     {
         if (!array_key_exists('time', $params) || !$params['time']) {
             throw new \InvalidArgumentException('Missing required parameter "time" in params');
@@ -17,13 +16,24 @@ class POST
             throw new \InvalidArgumentException('Missing app_secret');
         }
 
-        $url = $uri->getURL();
+        $query_string = $uri->getQuery();
+        $uri = $uri->withQuery('');
 
-        $uri->setQueryVariables(array_merge(
+        $query = array();
+        parse_str($query_string, $query);
+
+        $params = array_merge($params, $query);
+
+        $query_string = http_build_query(array_merge(
             $params,
-            array( 'sig' => Util::createSignature($params, $app_secret) )
+            array('sig' => Util::createSignature($params, $app_secret))
         ));
 
-        return Request::post($url, $uri->getQueryVariables(), Mime::FORM);
+        return new Request(
+            'POST',
+            $uri,
+            array('Content-Type' => 'application/x-www-form-urlencoded'),
+            $query_string
+        );
     }
 }
