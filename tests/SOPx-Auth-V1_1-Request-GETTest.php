@@ -1,13 +1,13 @@
 <?php
 
-use \Net_URL2;
+use \GuzzleHttp\Psr7\Uri;
 use \SOPx\Auth\V1_1\Request\GET;
 
 class SOPx_Auth_V1_1_Request_GETTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->uri = new \Net_URL2('http://www.researchpanelasia.com');
+        $this->uri = new Uri('http://www.researchpanelasia.com');
     }
 
     /**
@@ -46,10 +46,12 @@ class SOPx_Auth_V1_1_Request_GETTest extends \PHPUnit_Framework_TestCase
             'hogehoge'
         );
 
-        $uri = new \Net_URL2($req->uri);
-        $query = $uri->getQueryVariables();
+        $this->assertEquals('GuzzleHttp\Psr7\Request', get_class($req));
+        $this->assertEquals('GET', $req->getMethod());
 
-        $this->assertEquals('GET', $req->method);
+        $query = array();
+        parse_str($req->getUri()->getQuery(), $query);
+
         $this->assertEquals(array(
             'aaa' => 'aaa',
             'bbb' => 'bbb',
