@@ -17,6 +17,11 @@ class GET
             throw new \InvalidArgumentException('Missing app_secret');
         }
 
+        $query = array();
+        parse_str($uri->getQuery(), $query);
+
+        $params = array_merge($query, $params);
+
         $query = array_merge(
             $params,
             array('sig' => Util::createSignature($params, $app_secret))
