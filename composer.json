@@ -7,14 +7,14 @@
     "homepage": "https://github.com/researchpanelasia/php-sopx-auth-v1_1",
     "authors": [
         {
-            "name": "yowcowvg",
-            "email": "yoko_ohyama@voyagegroup.com"
+            "name": "yowcow",
+            "email": "yoko.oyama@d8aspring.com"
         }
     ],
     "require": {
-        "nategood/httpful": "0.2.17",
         "pear/net_url2": "v2.0.7",
-        "php": ">=5.3.3"
+        "php": ">=5.3.3",
+        "guzzlehttp/guzzle": "^6.1"
     },
     "require-dev": {
         "phpunit/phpunit": "4.3.*"
