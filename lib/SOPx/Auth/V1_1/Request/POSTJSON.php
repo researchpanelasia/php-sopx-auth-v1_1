@@ -2,13 +2,12 @@
 
 namespace SOPx\Auth\V1_1\Request;
 
-use \Httpful\Mime;
-use \Httpful\Request;
+use \GuzzleHttp\Psr7\Request;
 use \SOPx\Auth\V1_1\Util;
 
 class POSTJSON
 {
-    public static function createRequest(\Net_URL2 $uri, array $params, $app_secret)
+    public static function createRequest(\GuzzleHttp\Psr7\Uri $uri, array $params, $app_secret)
     {
         if (!array_key_exists('time', $params) || !$params['time']) {
             throw new \InvalidArgumentException('Missing required parameter "time" in params');
@@ -20,8 +19,12 @@ class POSTJSON
         $data = json_encode($params);
         $sig = Util::createSignature($data, $app_secret);
 
-        $req = Request::post($uri->getURL(), $data, Mime::JSON);
-        $req->addHeader('X-Sop-Sig', $sig);
-        return $req;
+        return new Request(
+            'POST', $uri, array(
+                'X-Sop-Sig' => $sig,
+                'Content-Type' => 'application/json',
+            ),
+            $data
+        );
     }
 }

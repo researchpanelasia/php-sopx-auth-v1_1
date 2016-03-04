@@ -1,13 +1,13 @@
 <?php
 
-use \Net_URL2;
+use \GuzzleHttp\Psr7\Uri;
 use \SOPx\Auth\V1_1\Request\POST;
 
 class SOPx_Auth_V1_1_Request_POSTTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->uri = new \Net_URL2('http://www.researchpanelasia.com');
+        $this->uri = new Uri('http://www.researchpanelasia.com/?ccc=ccc');
     }
 
     /**
@@ -40,19 +40,25 @@ class SOPx_Auth_V1_1_Request_POSTTest extends \PHPUnit_Framework_TestCase
             $this->uri,
             array(
                 'time' => '1234',
-                'bbb' => 'bbb',
-                'aaa' => 'aaa',
+                'bbb'  => 'bbb',
+                'aaa'  => 'aaa',
             ),
             'hogehoge'
         );
 
-        $this->assertEquals('POST', $req->method);
-        $this->assertEquals('http://www.researchpanelasia.com', $req->uri);
+        $this->assertEquals('GuzzleHttp\Psr7\Request', get_class($req));
+        $this->assertEquals('POST', $req->getMethod());
+        $this->assertEquals('http://www.researchpanelasia.com/', $req->getUri() . "");
+
+        $query = array();
+        parse_str($req->getBody(), $query);
+
         $this->assertEquals(array(
-            'aaa' => 'aaa',
-            'bbb' => 'bbb',
+            'aaa'  => 'aaa',
+            'bbb'  => 'bbb',
+            'ccc'  => 'ccc',
             'time' => '1234',
-            'sig' => '40499603a4a5e8d4139817e415f637a180a7c18c1a2ab03aa5b296d7756818f6',
-        ), $req->payload);
+            'sig'  => '04708cb98a5ffcb4ad3501b284f23b9b31eb770a06b86abed03d814687d86e56',
+        ), $query);
     }
 }

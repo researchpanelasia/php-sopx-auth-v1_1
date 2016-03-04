@@ -13,10 +13,8 @@ $request = $auth->createRequest(
   'GET', 'https://<API_HOST>/path/to/endpoint',
   array('app_id' => '<APP_ID>', 'app_mid' => '<APP_MID>', ... )
 );
-//=> isa \Httpful\Request object
+//=> isa GuzzleHttp\Psr7\Request object
 
-$response = $request->send();
-//=> isa \Httpful\Response object
 ~~~
 
 OR
@@ -54,7 +52,7 @@ This module enables you to generate SOP v1.1 signature, make HTTP request to SOP
     )
   );
 
-  $response = $request->send();
+  // Then use Guzzle HTTP client to send request
 ~~~
 
 ## Creating a valid URL (e.g., for JSONP request)
@@ -72,8 +70,8 @@ This module enables you to generate SOP v1.1 signature, make HTTP request to SOP
     )
   );
 
-  // In your HTML template:
-  <script src="<?php echo $request->uri; ?>"></script>
+  // Then maybe in your HTML template:
+  <script src="<?php echo $request->getUri(); ?>"></script>
 ~~~
 
 ## Verifying a request signature for validity
@@ -91,3 +89,13 @@ This module enables you to generate SOP v1.1 signature, make HTTP request to SOP
     // Request is invalid
   }
 ~~~
+
+# SUPPORTED REQUEST TYPES
+
+Currently this client supports:
+
++ GET
++ POST
++ POST JSON
+
+request types defined in [SOP v1.1 Authentication](https://console.partners.surveyon.com/docs/v1_1/authentication).
