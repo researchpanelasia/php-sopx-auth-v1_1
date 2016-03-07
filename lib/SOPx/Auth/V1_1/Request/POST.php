@@ -17,13 +17,17 @@ class POST
             throw new \InvalidArgumentException('Missing app_secret');
         }
 
-        $url = $uri->getURL();
+        $query = $uri->getQueryVariables();
+        $uri->setQueryVariables(array());
+        $params = array_merge($query, $params);
 
-        $uri->setQueryVariables(array_merge(
-            $params,
-            array( 'sig' => Util::createSignature($params, $app_secret) )
-        ));
-
-        return Request::post($url, $uri->getQueryVariables(), Mime::FORM);
+        return Request::post(
+            $uri->getURL(),
+            array_merge(
+                $params,
+                array( 'sig' => Util::createSignature($params, $app_secret) )
+            ),
+            Mime::FORM
+        );
     }
 }

@@ -19,13 +19,13 @@ class PUT
 
         $query = $uri->getQueryVariables();
         $uri->setQueryVariables(array());
-        $query = array_merge($query, $params);
+        $params = array_merge($query, $params);
 
         return Request::put(
             $uri->getURL(),
             array_merge(
-                $query,
-                array('sig' => Util::createSignature($query, $app_secret))
+                $params,
+                array('sig' => Util::createSignature($params, $app_secret))
             ),
             Mime::FORM
         );
