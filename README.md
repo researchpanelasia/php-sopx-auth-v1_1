@@ -74,6 +74,48 @@ This module enables you to generate SOP v1.1 signature, make HTTP request to SOP
   <script src="<?php echo $request->getUri(); ?>"></script>
 ~~~
 
+## Sending various request types
+
+### GET
+
+~~~php
+  $request = $auth->createRequest('GET', (string) $url, (array) $params)
+~~~
+
+### POST
+
+For type `application/x-form-urlencode`
+
+~~~php
+  $request = $auth->createRequest('POST', (string) $url, (array) $params)
+~~~
+
+For type `application/json`
+
+```php
+  $request = $auth->createRequest('POSTJSON', (string) $url, (array) $params)
+```
+
+### DELETE
+
+```php
+  $request = $auth->createRequest('DELETE', (string> $url, (array) $params)
+```
+
+### PUT
+
+For type `application/x-form-urlencode`
+
+~~~php
+  $request = $auth->createRequest('PUT', (string) $url, (array) $params)
+~~~
+
+For type `application/json`
+
+```php
+  $request = $auth->createRequest('PUTJSON', (string) $url, (array) $params)
+```
+
 ## Verifying a request signature for validity
 
 ~~~php
@@ -89,13 +131,5 @@ This module enables you to generate SOP v1.1 signature, make HTTP request to SOP
     // Request is invalid
   }
 ~~~
-
-# SUPPORTED REQUEST TYPES
-
-Currently this client supports:
-
-+ GET
-+ POST
-+ POST JSON
 
 request types defined in [SOP v1.1 Authentication](https://console.partners.surveyon.com/docs/v1_1/authentication).
