@@ -91,3 +91,16 @@ This module enables you to generate SOP v1.1 signature, make HTTP request to SOP
     // Request is invalid
   }
 ~~~
+
+# SUPPORTED REQUEST TYPES
+
++ GET
++ POST
+    + With following content types:
+        + `application/x-www-form-urlencoded`
+        + `application/json`
++ DELETE
++ PUT
+    + With following content types:
+        + `application/x-www-form-urlencoded`
+        + `application/json`
