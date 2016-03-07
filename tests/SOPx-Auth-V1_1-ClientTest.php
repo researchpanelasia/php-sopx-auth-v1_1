@@ -49,6 +49,15 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('GET', $req->getMethod());
     }
 
+    public function testCreateRequest_on_DELETE() {
+        $req = $this->auth->createRequest(
+            'DELETE', 'http://hoge/', array('aaa' => 'aaa')
+        );
+
+        $this->assertInstanceOf('GuzzleHttp\Psr7\Request', $req);
+        $this->assertEquals('DELETE', $req->getMethod());
+    }
+
     public function testCreateRequest_on_POST() {
         $req = $this->auth->createRequest(
             'POST', 'http://hoge/', array('aaa' => 'aaa')
@@ -58,6 +67,15 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('POST', $req->getMethod());
     }
 
+    public function testCreateRequest_on_PUT() {
+        $req = $this->auth->createRequest(
+            'PUT', 'http://hoge/', array('aaa' => 'aaa')
+        );
+
+        $this->assertInstanceOf('GuzzleHttp\Psr7\Request', $req);
+        $this->assertEquals('PUT', $req->getMethod());
+    }
+
     public function testCreateRequest_on_POSTJSON() {
         $req = $this->auth->createRequest(
             'POSTJSON', 'http://hoge/', array('aaa' => 'aaa')
@@ -65,6 +83,18 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('GuzzleHttp\Psr7\Request', $req);
         $this->assertEquals('POST', $req->getMethod());
+
+        $sig = $req->getHeader('x-sop-sig');
+        $this->assertRegExp('/\A[0-9a-f]{64}\z/', $sig[0]);
+    }
+
+    public function testCreateRequest_on_PUTJSON() {
+        $req = $this->auth->createRequest(
+            'PUTJSON', 'http://hoge/', array('aaa' => 'aaa')
+        );
+
+        $this->assertInstanceOf('GuzzleHttp\Psr7\Request', $req);
+        $this->assertEquals('PUT', $req->getMethod());
 
         $sig = $req->getHeader('x-sop-sig');
         $this->assertRegExp('/\A[0-9a-f]{64}\z/', $sig[0]);
