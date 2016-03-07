@@ -58,6 +58,15 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('POST', $req->method);
     }
 
+    public function testCreateRequest_on_PUT() {
+        $req = $this->auth->createRequest(
+            'PUT', 'http://hoge/', array('aaa' => 'aaa')
+        );
+
+        $this->assertInstanceOf('Httpful\Request', $req);
+        $this->assertEquals('PUT', $req->method);
+    }
+
     public function testCreateRequest_on_POSTJSON() {
         $req = $this->auth->createRequest(
             'POSTJSON', 'http://hoge/', array('aaa' => 'aaa')
@@ -65,6 +74,16 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Httpful\Request', $req);
         $this->assertEquals('POST', $req->method);
+        $this->assertRegExp('/\A[0-9a-f]{64}\z/', $req->headers['X-Sop-Sig']);
+    }
+
+    public function testCreateRequest_on_PUTJSON() {
+        $req = $this->auth->createRequest(
+            'PUTJSON', 'http://hoge/', array('aaa' => 'aaa')
+        );
+
+        $this->assertInstanceOf('Httpful\Request', $req);
+        $this->assertEquals('PUT', $req->method);
         $this->assertRegExp('/\A[0-9a-f]{64}\z/', $req->headers['X-Sop-Sig']);
     }
 

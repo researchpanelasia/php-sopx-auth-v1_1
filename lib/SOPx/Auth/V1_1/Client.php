@@ -3,9 +3,12 @@
 namespace SOPx\Auth\V1_1;
 
 use \Net_URL2;
+use \SOPx\Auth\V1_1\Request\DELETE;
 use \SOPx\Auth\V1_1\Request\GET;
 use \SOPx\Auth\V1_1\Request\POST;
 use \SOPx\Auth\V1_1\Request\POSTJSON;
+use \SOPx\Auth\V1_1\Request\PUT;
+use \SOPx\Auth\V1_1\Request\PUTJSON;
 
 class Client
 {
@@ -41,6 +44,9 @@ class Client
 
         $req;
         switch ($method) {
+            case 'DELETE':
+                $req = DELETE::createRequest($uri, $params, $this->getAppSecret());
+                break;
             case 'GET':
                 $req = GET::createRequest($uri, $params, $this->getAppSecret());
                 break;
@@ -49,6 +55,12 @@ class Client
                 break;
             case 'POSTJSON':
                 $req = POSTJSON::createRequest($uri, $params, $this->getAppSecret());
+                break;
+            case 'PUT':
+                $req = PUT::createRequest($uri, $params, $this->getAppSecret());
+                break;
+            case 'PUTJSON':
+                $req = PUTJSON::createRequest($uri, $params, $this->getAppSecret());
                 break;
             default:
                 throw new \InvalidArgumentException('Cannot handle method: '. $method);
