@@ -99,7 +99,7 @@ For type `application/json`
 ### DELETE
 
 ```php
-  $request = $auth->createRequest('DELETE', (string> $url, (array) $params)
+  $request = $auth->createRequest('DELETE', (string) $url, (array) $params)
 ```
 
 ### PUT
