@@ -84,7 +84,7 @@ This module enables you to generate SOP v1.1 signature, make HTTP request to SOP
 
 ### POST
 
-For type `application/x-form-urlencode`
+For type `application/x-www-form-urlencoded`
 
 ~~~php
   $request = $auth->createRequest('POST', (string) $url, (array) $params)
@@ -104,7 +104,7 @@ For type `application/json`
 
 ### PUT
 
-For type `application/x-form-urlencode`
+For type `application/x-www-form-urlencoded`
 
 ~~~php
   $request = $auth->createRequest('PUT', (string) $url, (array) $params)
